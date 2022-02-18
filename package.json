@@ -1,7 +1,7 @@
 {
-  "name": "worker-typescript-template",
-  "version": "1.0.0",
-  "description": "Cloudflare worker TypeScript template",
+  "name": "flarelytics",
+  "version": "0.1.0",
+  "description": "Web analytics platform based on Cloudflare Workers",
   "main": "dist/worker.js",
   "scripts": {
     "build": "webpack",
@@ -9,7 +9,7 @@
     "lint": "eslint --max-warnings=0 src && prettier --check '*.{json,js}' 'src/**/*.{js,ts}' 'test/**/*.{js,ts}'",
     "test": "jest --config jestconfig.json --verbose"
   },
-  "author": "author",
+  "author": "Vladyslav Moisieienkov (VMois)",
   "license": "MIT OR Apache-2.0",
   "eslintConfig": {
     "root": true,
@@ -37,6 +37,7 @@
     "webpack-cli": "^4.7.0"
   },
   "dependencies": {
+    "faunadb": "^4.5.2",
     "itty-router": "^2.4.10"
   }
 }
