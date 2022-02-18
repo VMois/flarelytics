@@ -2,8 +2,10 @@
 const serverURL = "http://localhost:8787"
 
 function sendEvent(id, state) {
+    const domain = window.location.hostname.replace("www.", "");
     let data = {
         "id": id,
+        "domain": domain,
         "page": window.location.pathname,
         "state": state,
     }
@@ -47,14 +49,6 @@ function startTracking() {
           sendEvent(tracking_id, state)
         }
     });
-
-    window.addEventListener("pagehide", event => {
-        if (!event.persisted) {
-            state = "closed"
-            logState(state)
-            sendEvent(tracking_id, state)
-        }
-    }, false);
 }
 
 
