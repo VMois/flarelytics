@@ -37,7 +37,7 @@
     "webpack-cli": "^4.7.0"
   },
   "dependencies": {
-    "faunadb": "^4.5.2",
-    "itty-router": "^2.4.10"
+    "itty-router": "^2.4.10",
+    "realm-web": "^1.7.0"
   }
 }

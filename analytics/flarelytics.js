@@ -1,15 +1,17 @@
-// TODO: more flexible way to build it with right URL
-const serverURL = "http://localhost:8787"
+const domain = window.location.hostname.replace("www.", "");
+let serverURL = "https://flarelytics.vmois.dev";
+if (domain == "localhost" || domain == "127.0.0.1") {
+    serverURL = "http://localhost:8787"
+}
 
 function sendEvent(id, state) {
-    const domain = window.location.hostname.replace("www.", "");
     let data = {
-        "id": id,
+        "tracking_id": id,
         "domain": domain,
         "page": window.location.pathname,
         "state": state,
     }
-    fetch(`${serverURL}/api/events`, {
+    fetch(`${serverURL}/event`, {
         method: 'POST',
         headers: {
             'Content-Type': 'application/json',
@@ -52,4 +54,4 @@ function startTracking() {
 }
 
 
-setTimeout(startTracking, 10 * 1000);
+setTimeout(startTracking, 5 * 1000);

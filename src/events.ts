@@ -1,45 +1,24 @@
-import {faunaClient, getFaunaError} from "./utils";
-import faunadb from 'faunadb';
-
-interface Event {
-  id: string
-  domain: string
-  page: string
-  state: string
-}
-
-const {Create, Collection} = faunadb.query;
+import Storage, { RawEvent } from "./storage";
 
 
 const Events = async (request: any) => {
-    const headers = { 
-        'Access-Control-Allow-Origin': '*',
-        'Content-type': 'application/json',
-    }
+    /*const headers = { 
+        "Access-Control-Allow-Origin": "*",
+        "Content-type": "application/json",
+    };*/
 
-    const event: Event = await request.json()
-    console.log("Received event: ", event)
+    const event: RawEvent = await request.json();
+    console.log("Received event: ", event);
 
+    const storage = new Storage();
+    await storage.init();
+    
     try {
-        await faunaClient.query(
-            Create(
-            Collection("Events"),
-            {
-                data: {
-                    "id": event.id,
-                    "domain": event.domain,
-                    "page": event.page,
-                    "state": event.state,
-                    "timestamp": Math.round(Date.now() / 1000),
-                }
-            }
-            )
-        );
-        return new Response("", { headers })
+        await storage.saveEvent(event)
+        return new Response("")
     } catch (error) {
-        const faunaError = getFaunaError(error);
-        console.log(`Fauna query failed ${faunaError.description}`)
-        return new Response("", { headers, status: faunaError.status})
+        console.log(`Error. Couldn't store event: ${error}`)
+        return new Response("", { status: 500})
     }
 };
 
