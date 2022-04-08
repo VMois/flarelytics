@@ -13,4 +13,4 @@ router
   .put('*', () => new Response('Not found', { status: 404 }))
   .delete('*', () => new Response('Not found', { status: 404 }))
 
-export const handleRequest = (request: any) => router.handle(request)
+export const handleRequest = (request: Request) => router.handle(request)

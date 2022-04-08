@@ -1,7 +1,7 @@
 import Storage, { RawEvent } from "./storage";
 
 
-const Events = async (request: any) => {
+const Events = async (request: Request) => {
     const headers = { 
         "Access-Control-Allow-Origin": "*",
         "Content-type": "application/json",

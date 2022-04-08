@@ -19,7 +19,7 @@ const calculateTimeOnPage = (events: [RawEvent]) => {
 };
 
 
-const Statistics = async (request: any) => {
+const Statistics = async (request: Request) => {
     const headers = {
         "Content-type": "application/json",
     };
