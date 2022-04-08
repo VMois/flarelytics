@@ -20,6 +20,10 @@ const calculateTimeOnPage = (events: [RawEvent]) => {
 
 
 const Statistics = async (request: any) => {
+    const headers = {
+        "Content-type": "application/json",
+    };
+
     const storage = new Storage();
     await storage.init();
 
@@ -30,7 +34,7 @@ const Statistics = async (request: any) => {
         const events = item.events;
 
         if (events.length > 0) {
-            const timeOnPage = calculateTimeOnPage(events);
+            const timeOnPage = Math.round(calculateTimeOnPage(events) / 1000);
             const page = events[0].page
             if (page_to_metric[page] === undefined) {
                 page_to_metric[page] = {
@@ -45,9 +49,9 @@ const Statistics = async (request: any) => {
 
     const avg: { [page: string]: number } = {}
     for (const page in page_to_metric) {
-        avg[page] = page_to_metric[page].sum / page_to_metric[page].count;
+        avg[page] = Math.round(page_to_metric[page].sum / page_to_metric[page].count);
     }
-    return new Response(`Avg time on page:\n${JSON.stringify(avg)}`);
+    return new Response(JSON.stringify(avg, null, 2), { headers });
 }
 
 export default Statistics;
