@@ -8,9 +8,9 @@ declare global {
 }
 
 type Document = globalThis.Realm.Services.MongoDB.Document;
-type RawEventCollection = globalThis.Realm.Services.MongoDB.MongoDBCollection<RawEvent>;
+type RawEventCollection = globalThis.Realm.Services.MongoDB.MongoDBCollection<Event>;
 
-export interface RawEvent extends Document {
+export interface Event extends Document {
     tracking_id: string
     domain: string
     page: string
@@ -25,10 +25,10 @@ export default class Storage {
         const App = new Realm.App(REALM_APPID);
         const credentials = Realm.Credentials.apiKey(REALM_API_TOKEN);
         const user = await App.logIn(credentials);
-        this.events = user.mongoClient('mongodb-atlas').db(DB_NAME).collection<RawEvent>('events');
+        this.events = user.mongoClient('mongodb-atlas').db(DB_NAME).collection<Event>('events');
     }
 
-    async saveEvent(event: RawEvent) {
+    async saveEvent(event: Event) {
         await this.events.insertOne({
             "tracking_id": event.tracking_id,
             "domain": event.domain,

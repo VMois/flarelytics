@@ -1,7 +1,7 @@
 
-import Storage, {RawEvent} from './storage'
+import Storage, {Event} from './storage'
 
-const calculateTimeOnPage = (events: [RawEvent]) => {
+const calculateTimeOnPage = (events: [Event]) => {
     let time_on_page: number = 0;
     let visible_timestamp: Date | undefined = undefined;
     for (const event of events) {

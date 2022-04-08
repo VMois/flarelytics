@@ -1,4 +1,4 @@
-import Storage, { RawEvent } from "./storage";
+import Storage, { Event } from "./storage";
 
 
 const Events = async (request: Request) => {
@@ -7,7 +7,7 @@ const Events = async (request: Request) => {
         "Content-type": "application/json",
     };
 
-    const event: RawEvent = await request.json();
+    const event: Event = await request.json();
     console.log("Received event: ", event);
 
     const storage = new Storage();
