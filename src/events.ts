@@ -2,10 +2,10 @@ import Storage, { RawEvent } from "./storage";
 
 
 const Events = async (request: any) => {
-    /*const headers = { 
+    const headers = { 
         "Access-Control-Allow-Origin": "*",
         "Content-type": "application/json",
-    };*/
+    };
 
     const event: RawEvent = await request.json();
     console.log("Received event: ", event);
@@ -15,10 +15,10 @@ const Events = async (request: any) => {
     
     try {
         await storage.saveEvent(event)
-        return new Response("")
+        return new Response("", { headers })
     } catch (error) {
         console.log(`Error. Couldn't store event: ${error}`)
-        return new Response("", { status: 500})
+        return new Response("", { status: 500 })
     }
 };
 
