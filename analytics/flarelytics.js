@@ -54,4 +54,4 @@ function startTracking() {
 }
 
 
-setTimeout(startTracking, 5 * 1000);
+setTimeout(startTracking, 10 * 1000);
