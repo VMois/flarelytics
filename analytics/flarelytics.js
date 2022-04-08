@@ -1,7 +1,7 @@
 const domain = window.location.hostname.replace("www.", "");
 let serverURL = "https://flarelytics.vmois.dev";
 if (domain == "localhost" || domain == "127.0.0.1") {
-    serverURL = "http://localhost:8787"
+    serverURL = "http://localhost:8787";
 }
 
 function sendEvent(id, state) {
@@ -10,7 +10,7 @@ function sendEvent(id, state) {
         "domain": domain,
         "page": window.location.pathname,
         "state": state,
-    }
+    };
     fetch(`${serverURL}/event`, {
         method: 'POST',
         headers: {
@@ -25,30 +25,32 @@ function sendEvent(id, state) {
 }
 
 function logState(state) {
-    console.log(`Flarelytics: page is ${state}`)
+    console.log(`Flarelytics: page is ${state}`);
 }
 
 function startTracking() {
-    tracking_id = crypto.randomUUID()
+    tracking_id = crypto.randomUUID();
+
+    var state;
 
     if (document.visibilityState == "visible") {
-        state = "visible"
-        logState(state)
-        sendEvent(tracking_id, state)
+        state = "visible";
+        logState(state);
+        sendEvent(tracking_id, state);
     }
 
     document.addEventListener("visibilitychange", () => {
-        let new_state = ""
+        let new_state = "";
         if (document.visibilityState === "visible") {
-            new_state = "visible"
+            new_state = "visible";
         } else if (document.visibilityState === "hidden") {
-            new_state = "hidden"
+            new_state = "hidden";
         }
 
         if (new_state != state) {
-          state = new_state
-          logState(state)
-          sendEvent(tracking_id, state)
+          state = new_state;
+          logState(state);
+          sendEvent(tracking_id, state);
         }
     });
 }
