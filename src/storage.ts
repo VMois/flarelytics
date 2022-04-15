@@ -3,7 +3,6 @@ import * as Realm from 'realm-web';
 declare global {
     const REALM_APPID: string;
     const REALM_API_TOKEN: string;
-    const ENVIRONMENT: string;
     const DB_NAME: string;
 }
 
