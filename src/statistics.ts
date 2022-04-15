@@ -1,8 +1,8 @@
 
 import Storage, {Event} from './storage'
 
-const calculateTimeOnPage = (events: [Event]) => {
-    let time_on_page: number = 0;
+const calculateTimeOnPage = (events: [Event]): number => {
+    let time_on_page = 0;
     let visible_timestamp: Date | undefined = undefined;
     for (const event of events) {
         if (event.state == "visible") {
@@ -19,7 +19,7 @@ const calculateTimeOnPage = (events: [Event]) => {
 };
 
 
-const Statistics = async (request: Request) => {
+const Statistics = async (): Promise<Response> => {
     const headers = {
         "Content-type": "application/json",
     };

@@ -1,7 +1,7 @@
 import Storage, { Event } from "./storage";
 
 
-const Events = async (request: Request) => {
+const Events = async (request: Request): Promise<Response> => {
     const headers = { 
         "Access-Control-Allow-Origin": "*",
         "Content-type": "application/json",

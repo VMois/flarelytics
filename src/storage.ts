@@ -20,14 +20,14 @@ export interface Event extends Document {
 export default class Storage {
     events: RawEventCollection;
     
-    async init() {
-        const App = new Realm.App(REALM_APPID);
+    async init(): Promise<void> {
+        const app = new Realm.App(REALM_APPID);
         const credentials = Realm.Credentials.apiKey(REALM_API_TOKEN);
-        const user = await App.logIn(credentials);
+        const user = await app.logIn(credentials);
         this.events = user.mongoClient('mongodb-atlas').db(DB_NAME).collection<Event>('events');
     }
 
-    async saveEvent(event: Event) {
+    async saveEvent(event: Event): Promise<void> {
         await this.events.insertOne({
             "tracking_id": event.tracking_id,
             "domain": event.domain,
