@@ -18,6 +18,17 @@ const calculateTimeOnPage = (events: [Event]): number => {
      return time_on_page
 };
 
+const calculateMedian = (numbers: number[]): number => {
+    const sorted = Array.from(numbers).sort((a, b) => a - b);
+    const middle = Math.floor(sorted.length / 2);
+
+    if (sorted.length % 2 === 0) {
+      return (sorted[middle - 1] + sorted[middle]) / 2;
+    }
+
+    return sorted[middle];
+}
+
 
 const Statistics = async (): Promise<Response> => {
     const headers = {
@@ -29,29 +40,28 @@ const Statistics = async (): Promise<Response> => {
 
     const events_by_tracking_id = await storage.getEventsByTrackingId();
 
-    const page_to_metric: { [page: string]: any } = {};
+    const page_to_times_on_page: { [page: string]: number[] } = {};
     for (const item of events_by_tracking_id) {
         const events = item.events;
 
         if (events.length > 0) {
             const timeOnPage = Math.round(calculateTimeOnPage(events) / 1000);
             const page = events[0].page
-            if (page_to_metric[page] === undefined) {
-                page_to_metric[page] = {
-                    sum: 0,
-                    count: 0,
-                };
+            if (page_to_times_on_page[page] === undefined) {
+                page_to_times_on_page[page] = []
             }
-            page_to_metric[page].sum += timeOnPage;
-            page_to_metric[page].count += 1;
+            page_to_times_on_page[page].push(timeOnPage);
         }
     }
 
-    const avg: { [page: string]: number } = {}
-    for (const page in page_to_metric) {
-        avg[page] = Math.round(page_to_metric[page].sum / page_to_metric[page].count);
+    const median: { [page: string]: number } = {}
+    for (const page in page_to_times_on_page) {
+        median[page] = calculateMedian(page_to_times_on_page[page]);
     }
-    return new Response(JSON.stringify(avg, null, 2), { headers });
+    const results = {
+        "time_on_page": median,
+    }
+    return new Response(JSON.stringify(results, null, 2), { headers });
 }
 
 export default Statistics;
